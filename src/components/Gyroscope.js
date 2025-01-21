@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
 const Gyroscope = () => {
-  const [orientation, setOrientation] = useState({
-    alpha: null,
-    beta: null,
-    gamma: null,
-  });
+  const [orientation, setOrientation] = useState({ alpha: null, beta: null, gamma: null });
   const [isSupported, setIsSupported] = useState(true);
 
   const handleOrientation = (event) => {
-    console.log('Orientation Event:', event); // Log the event
-    const { alpha, beta, gamma } = event;
-    setOrientation({ alpha, beta, gamma });
+    if (event.alpha === null || event.beta === null || event.gamma === null) {
+      setIsSupported(false);
+      return;
+    }
+    setOrientation({ alpha: event.alpha, beta: event.beta, gamma: event.gamma });
   };
+
 
   useEffect(() => {
     if (!window.DeviceOrientationEvent) {
@@ -48,7 +47,7 @@ const Gyroscope = () => {
   return (
     <div>
       <h1>Gyroscope Data</h1>
-      <p>version 0.0.1</p>
+      <p>Version 0.0.2</p>
       {isSupported ? (
         <>
           <p>Alpha: {orientation.alpha}</p>

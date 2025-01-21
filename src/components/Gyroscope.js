@@ -24,13 +24,17 @@ const Gyroscope = () => {
       // iOS 13+ devices require permission
       DeviceOrientationEvent.requestPermission()
         .then((permissionState) => {
+          console.log('Permission State:', permissionState);
           if (permissionState === 'granted') {
             window.addEventListener('deviceorientation', handleOrientation);
           } else {
             setIsSupported(false); // Permission denied
           }
         })
-        .catch(console.error);
+        .catch((error) => {
+          console.error('Permission Request Error:', error);
+          setIsSupported(false);
+        });
     } else {
       // Non-iOS devices
       window.addEventListener('deviceorientation', handleOrientation);
@@ -44,6 +48,7 @@ const Gyroscope = () => {
   return (
     <div>
       <h1>Gyroscope Data</h1>
+      <p>version 0.0.1</p>
       {isSupported ? (
         <>
           <p>Alpha: {orientation.alpha}</p>

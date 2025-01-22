@@ -151,7 +151,7 @@ const GyroscopeDataViewer = () => {
     //   </div>
     // </div>
     <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
-      <h1>Gyroscope Data Viewer version ( 0.0.1 ) with nomarl JS function</h1>
+      <h1>Gyroscope Data Viewer</h1>
       {gyroscopeData && <div style={{ marginTop: "20px", fontSize: "18px" }}>
         <p>Alpha (Z-axis): {gyroscopeData.alpha.toFixed(2)}</p>
         <p>Beta (X-axis): {gyroscopeData.beta.toFixed(2)}</p>

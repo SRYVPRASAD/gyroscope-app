@@ -1,12 +1,12 @@
 import './App.css';
-import Gyroscope from './components/Gyroscope';
+import GyroscopeDataViewer from './components/Gyroscope';
 import logo from './logo.svg';
 
 function App() {
   return (
     <>
       <div className="App">
-        <Gyroscope />
+        <GyroscopeDataViewer />
       </div>
       <div className="App">
         <header className="App-header">

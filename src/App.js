@@ -11,18 +11,10 @@ function App() {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p> Open this website on your mobile device and give it a shake to view the data.</p>
-          {/* <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a> */}
+          <p> Open this website on your mobile device and give access and shake it to view the data.</p>
         </header>
-
-      </div></>
+      </div>
+    </>
   );
 }
 

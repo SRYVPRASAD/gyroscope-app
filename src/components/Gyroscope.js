@@ -60,6 +60,28 @@ import React, { useEffect, useState } from "react";
 const GyroscopeDataViewer = () => {
   const [gyroscopeData, setGyroscopeData] = useState({ alpha: 0, beta: 0, gamma: 0 });
   // const [allowGyro, setAllowGyro] = useState(false);
+  const [message, setMessage] = useState("Waiting for messages...");
+
+  useEffect(() => {
+    const handleMessage = (event) => {
+      // Ensure you verify the origin in production
+      if (event.data && event.data.type === "data") {
+        setMessage(`Received: ${event.data.content}`);
+
+        // Send acknowledgment back to the parent
+        event.source.postMessage({ type: "ack", status: "healthy" }, event.origin);
+      }
+    };
+
+    // Add event listener for messages
+    window.addEventListener("message", handleMessage);
+
+    // Cleanup listener on unmount
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
+
 
   useEffect(() => {
     const handleMessage = (event) => {
@@ -130,9 +152,14 @@ const GyroscopeDataViewer = () => {
   // const toggleGyro = () => setAllowGyro((prev) => !prev);
 
   return (
-    // <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
+    <>
+      <div style={{ textAlign: "center", padding: "20px" }}>
+        <h1>Iframe Page</h1>
+        <p>{message}</p>
+      </div>
+      {/* // <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
     //   <h1>Gyroscope Data Viewer</h1>
-    //   <button
+    //   <button 
     //     style={{
     //       padding: "10px 20px",
     //       backgroundColor: allowGyro ? "red" : "green",
@@ -150,15 +177,16 @@ const GyroscopeDataViewer = () => {
     //     <p>Beta (X-axis): {gyroscopeData.beta.toFixed(2)}</p>
     //     <p>Gamma (Y-axis): {gyroscopeData.gamma.toFixed(2)}</p>
     //   </div>
-    // </div>
-    <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
-      <h1>Gyroscope Data Viewer</h1>
-      {gyroscopeData.alpha && <div style={{ marginTop: "20px", fontSize: "18px" }}>
-        <p>Alpha (Z-axis): {gyroscopeData.alpha.toFixed(2)}</p>
-        <p>Beta (X-axis): {gyroscopeData.beta.toFixed(2)}</p>
-        <p>Gamma (Y-axis): {gyroscopeData.gamma.toFixed(2)}</p>
-      </div>}
-    </div>
+    // </div>*/}
+      < div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
+        <h1>Gyroscope Data Viewer</h1>
+        {gyroscopeData.alpha && <div style={{ marginTop: "20px", fontSize: "18px" }}>
+          <p>Alpha (Z-axis): {gyroscopeData.alpha.toFixed(2)}</p>
+          <p>Beta (X-axis): {gyroscopeData.beta.toFixed(2)}</p>
+          <p>Gamma (Y-axis): {gyroscopeData.gamma.toFixed(2)}</p>
+        </div>}
+      </div>
+    </>
   );
 };
 

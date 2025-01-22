@@ -63,6 +63,8 @@ const GyroscopeDataViewer = () => {
 
   useEffect(() => {
     const handleMessage = (event) => {
+      event.preventDefault()
+      alert('Message received:', event.data)
       // Ensure the message contains gyroscope data
       if (event.data && event.data.alpha !== undefined) {
         setGyroscopeData(event.data);

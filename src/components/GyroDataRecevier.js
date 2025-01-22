@@ -11,11 +11,11 @@ const GyroscopeDataReceiver = () => {
 
   useEffect(() => {
     const handleMessage = (event) => {
-      const trustedOrigin = "https://your-parent-origin.com"; // Replace with the parent's origin
-      if (event.origin !== trustedOrigin) {
-        console.warn("Untrusted origin:", event.origin);
-        return;
-      }
+      // const trustedOrigin = "https://your-parent-origin.com"; // Replace with the parent's origin
+      // if (event.origin !== trustedOrigin) {
+      //   console.warn("Untrusted origin:", event.origin);
+      //   return;
+      // }
 
       const data = event.data;
 

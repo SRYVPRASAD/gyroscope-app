@@ -3,32 +3,57 @@ import React, { useEffect, useState } from "react";
 // Plain JavaScript to capture gyroscope data and send it to React
 (function () {
   const sendGyroData = (data) => {
-    // Dispatch a custom event with gyroscope data
     window.dispatchEvent(new CustomEvent("gyroscopeData", { detail: data }));
   };
 
   const handleOrientation = (event) => {
+    if (!event) return;
     const data = {
-      alpha: event.alpha || 0,
-      beta: event.beta || 0,
-      gamma: event.gamma || 0,
+      alpha: event.alpha || 0, // Z-axis rotation
+      beta: event.beta || 0,   // X-axis rotation
+      gamma: event.gamma || 0, // Y-axis rotation
     };
     sendGyroData(data);
   };
 
-  // Request permission for iOS devices
-  if (typeof DeviceOrientationEvent.requestPermission === "function") {
-    DeviceOrientationEvent.requestPermission()
-      .then((permissionState) => {
-        if (permissionState === "granted") {
-          window.addEventListener("deviceorientation", handleOrientation, true);
-        }
-      })
-      .catch(console.error);
-  } else {
-    // Add listener for other browsers
-    window.addEventListener("deviceorientation", handleOrientation, true);
-  }
+  const initGyroscope = () => {
+    if (typeof DeviceOrientationEvent.requestPermission === "function") {
+      DeviceOrientationEvent.requestPermission()
+        .then((permissionState) => {
+          if (permissionState === "granted") {
+            window.addEventListener("deviceorientation", handleOrientation, true);
+          } else {
+            console.error("Gyroscope permission not granted.");
+          }
+        })
+        .catch((err) => {
+          console.error("Error requesting gyroscope permission:", err);
+        });
+    } else {
+      // Add listener for non-iOS browsers
+      window.addEventListener("deviceorientation", handleOrientation, true);
+    }
+  };
+
+  // Initialize the gyroscope after user interaction
+  window.addEventListener("DOMContentLoaded", () => {
+    const permissionButton = document.createElement("button");
+    permissionButton.innerText = "Enable Gyroscope";
+    permissionButton.style.padding = "10px 20px";
+    permissionButton.style.backgroundColor = "#007BFF";
+    permissionButton.style.color = "#fff";
+    permissionButton.style.border = "none";
+    permissionButton.style.borderRadius = "5px";
+    permissionButton.style.cursor = "pointer";
+    permissionButton.style.display = "block";
+    permissionButton.style.margin = "20px auto";
+    document.body.appendChild(permissionButton);
+
+    permissionButton.addEventListener("click", () => {
+      initGyroscope();
+      permissionButton.style.display = "none"; // Hide the button after enabling
+    });
+  });
 })();
 
 
@@ -107,7 +132,7 @@ const GyroscopeDataViewer = () => {
     //   </div>
     // </div>
     <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
-      <h1>Gyroscope Data Viewer</h1>
+      <h1>Gyroscope Data Viewer version ( 0.0.1 ) with nomarl JS function</h1>
       <div style={{ marginTop: "20px", fontSize: "18px" }}>
         <p>Alpha (Z-axis): {gyroscopeData.alpha.toFixed(2)}</p>
         <p>Beta (X-axis): {gyroscopeData.beta.toFixed(2)}</p>

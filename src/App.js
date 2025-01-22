@@ -4,6 +4,7 @@ import GyroscopeDataViewer from './components/Gyroscope';
 function App() {
   return (
     <>
+      <GyroscopeDataReceiver />
       <div className="App">
         <GyroscopeDataViewer />
       </div>

@@ -64,9 +64,9 @@ const GyroscopeDataViewer = () => {
   useEffect(() => {
     const handleMessage = (event) => {
       event.preventDefault()
-      alert('Message received:', event.data)
       // Ensure the message contains gyroscope data
       if (event.data && event.data.alpha !== undefined) {
+        alert('updated')
         setGyroscopeData(event.data);
       }
     };
@@ -152,11 +152,11 @@ const GyroscopeDataViewer = () => {
     // </div>
     <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
       <h1>Gyroscope Data Viewer version ( 0.0.1 ) with nomarl JS function</h1>
-      <div style={{ marginTop: "20px", fontSize: "18px" }}>
+      {gyroscopeData && <div style={{ marginTop: "20px", fontSize: "18px" }}>
         <p>Alpha (Z-axis): {gyroscopeData.alpha.toFixed(2)}</p>
         <p>Beta (X-axis): {gyroscopeData.beta.toFixed(2)}</p>
         <p>Gamma (Y-axis): {gyroscopeData.gamma.toFixed(2)}</p>
-      </div>
+      </div>}
     </div>
   );
 };

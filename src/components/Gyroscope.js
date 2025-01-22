@@ -1,60 +1,60 @@
 import React, { useEffect, useState } from "react";
 
 // Plain JavaScript to capture gyroscope data and send it to React
-(function () {
-  const sendGyroData = (data) => {
-    window.dispatchEvent(new CustomEvent("gyroscopeData", { detail: data }));
-  };
+// (function () {
+//   const sendGyroData = (data) => {
+//     window.dispatchEvent(new CustomEvent("gyroscopeData", { detail: data }));
+//   };
 
-  const handleOrientation = (event) => {
-    if (!event) return;
-    const data = {
-      alpha: event.alpha || 0, // Z-axis rotation
-      beta: event.beta || 0,   // X-axis rotation
-      gamma: event.gamma || 0, // Y-axis rotation
-    };
-    sendGyroData(data);
-  };
+//   const handleOrientation = (event) => {
+//     if (!event) return;
+//     const data = {
+//       alpha: event.alpha || 0, // Z-axis rotation
+//       beta: event.beta || 0,   // X-axis rotation
+//       gamma: event.gamma || 0, // Y-axis rotation
+//     };
+//     sendGyroData(data);
+//   };
 
-  const initGyroscope = () => {
-    if (typeof DeviceOrientationEvent.requestPermission === "function") {
-      DeviceOrientationEvent.requestPermission()
-        .then((permissionState) => {
-          if (permissionState === "granted") {
-            window.addEventListener("deviceorientation", handleOrientation, true);
-          } else {
-            console.error("Gyroscope permission not granted.");
-          }
-        })
-        .catch((err) => {
-          console.error("Error requesting gyroscope permission:", err);
-        });
-    } else {
-      // Add listener for non-iOS browsers
-      window.addEventListener("deviceorientation", handleOrientation, true);
-    }
-  };
+//   const initGyroscope = () => {
+//     if (typeof DeviceOrientationEvent.requestPermission === "function") {
+//       DeviceOrientationEvent.requestPermission()
+//         .then((permissionState) => {
+//           if (permissionState === "granted") {
+//             window.addEventListener("deviceorientation", handleOrientation, true);
+//           } else {
+//             console.error("Gyroscope permission not granted.");
+//           }
+//         })
+//         .catch((err) => {
+//           console.error("Error requesting gyroscope permission:", err);
+//         });
+//     } else {
+//       // Add listener for non-iOS browsers
+//       window.addEventListener("deviceorientation", handleOrientation, true);
+//     }
+//   };
 
-  // Initialize the gyroscope after user interaction
-  window.addEventListener("DOMContentLoaded", () => {
-    const permissionButton = document.createElement("button");
-    permissionButton.innerText = "Enable Gyroscope";
-    permissionButton.style.padding = "10px 20px";
-    permissionButton.style.backgroundColor = "#007BFF";
-    permissionButton.style.color = "#fff";
-    permissionButton.style.border = "none";
-    permissionButton.style.borderRadius = "5px";
-    permissionButton.style.cursor = "pointer";
-    permissionButton.style.display = "block";
-    permissionButton.style.margin = "20px auto";
-    document.body.appendChild(permissionButton);
+//   // Initialize the gyroscope after user interaction
+//   window.addEventListener("DOMContentLoaded", () => {
+//     const permissionButton = document.createElement("button");
+//     permissionButton.innerText = "Enable Gyroscope";
+//     permissionButton.style.padding = "10px 20px";
+//     permissionButton.style.backgroundColor = "#007BFF";
+//     permissionButton.style.color = "#fff";
+//     permissionButton.style.border = "none";
+//     permissionButton.style.borderRadius = "5px";
+//     permissionButton.style.cursor = "pointer";
+//     permissionButton.style.display = "block";
+//     permissionButton.style.margin = "20px auto";
+//     document.body.appendChild(permissionButton);
 
-    permissionButton.addEventListener("click", () => {
-      initGyroscope();
-      permissionButton.style.display = "none"; // Hide the button after enabling
-    });
-  });
-})();
+//     permissionButton.addEventListener("click", () => {
+//       initGyroscope();
+//       permissionButton.style.display = "none"; // Hide the button after enabling
+//     });
+//   });
+// })();
 
 
 const GyroscopeDataViewer = () => {
@@ -62,18 +62,35 @@ const GyroscopeDataViewer = () => {
   // const [allowGyro, setAllowGyro] = useState(false);
 
   useEffect(() => {
-    const handleGyroData = (event) => {
-      setGyroscopeData(event.detail);
+    const handleMessage = (event) => {
+      // Ensure the message contains gyroscope data
+      if (event.data && event.data.alpha !== undefined) {
+        setGyroscopeData(event.data);
+      }
     };
 
-    // Listen for the custom event
-    window.addEventListener("gyroscopeData", handleGyroData);
+    // Listen for messages from the parent window
+    window.addEventListener("message", handleMessage);
 
     return () => {
-      // Cleanup the listener
-      window.removeEventListener("gyroscopeData", handleGyroData);
+      // Cleanup the event listener
+      window.removeEventListener("message", handleMessage);
     };
   }, []);
+
+  // useEffect(() => {
+  //   const handleGyroData = (event) => {
+  //     setGyroscopeData(event.detail);
+  //   };
+
+  //   // Listen for the custom event
+  //   window.addEventListener("gyroscopeData", handleGyroData);
+
+  //   return () => {
+  //     // Cleanup the listener
+  //     window.removeEventListener("gyroscopeData", handleGyroData);
+  //   };
+  // }, []);
 
   // useEffect(() => {
   //   const handleOrientation = (event) => {

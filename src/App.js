@@ -5,13 +5,13 @@ import logo from './logo.svg';
 function App() {
   return (
     <>
-
+      <div className="App">
+        <GyroscopeDataViewer />
+      </div>
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            load this website in the modile and shake it to see the data.
-          </p>
+          <p> Open this website on your mobile device and give it a shake to view the data.</p>
           {/* <a
             className="App-link"
             href="https://reactjs.org"
@@ -21,9 +21,7 @@ function App() {
             Learn React
           </a> */}
         </header>
-        <div className="App">
-          <GyroscopeDataViewer />
-        </div>
+
       </div></>
   );
 }

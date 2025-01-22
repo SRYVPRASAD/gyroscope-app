@@ -1,4 +1,5 @@
 import './App.css';
+import GyroscopeDataReceiver from './components/GyroDataRecevier';
 import GyroscopeDataViewer from './components/Gyroscope';
 
 function App() {

@@ -62,6 +62,7 @@ const GyroscopeDataViewer = () => {
   // const [allowGyro, setAllowGyro] = useState(false);
   const [message, setMessage] = useState("Waiting for messages...");
 
+  // health check message only 
   useEffect(() => {
     const handleMessage = (event) => {
       // Ensure you verify the origin in production
@@ -85,10 +86,10 @@ const GyroscopeDataViewer = () => {
 
   useEffect(() => {
     const handleMessage = (event) => {
-
+      console.log('iframe data:', event)
       // Ensure the message contains gyroscope data
       if (event?.data && typeof event?.data === "object") {
-        alert('updated')
+
         console.log("Gyro Data received:", event?.data);
         setGyroscopeData(event.data);
       }

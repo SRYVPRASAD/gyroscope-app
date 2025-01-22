@@ -67,7 +67,7 @@ const GyroscopeDataViewer = () => {
       // Ensure the message contains gyroscope data
       if (event?.data && typeof event?.data === "object") {
         alert('updated')
-        console.log("Gyro Data received:", gyroData);
+        console.log("Gyro Data received:", event?.data);
         setGyroscopeData(event.data);
       }
     };

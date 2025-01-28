@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  node_version = "20"
+  publish = "build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

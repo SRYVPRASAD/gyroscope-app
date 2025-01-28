@@ -168,7 +168,7 @@ const GyroscopeDataViewer = () => {
         <p>{message}</p>
       </div>
       {/* parent  */}
-      {window.self !== window.top && <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
+      {window.self === window.top && <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
         <h1>Gyroscope Data Viewer</h1>
         <button
           style={{
@@ -190,7 +190,7 @@ const GyroscopeDataViewer = () => {
         </div>
       </div>}
       {/* child in iframe  */}
-      {window.self === window.top && < div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
+      {window.self !== window.top && < div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
         <h1>Gyroscope Data Viewer</h1>
         <div style={{ marginTop: "20px", fontSize: "18px" }}>
           <p>Alpha (Z-axis): {gyroscopeData?.alpha?.toFixed(2)}</p>

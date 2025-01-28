@@ -59,7 +59,7 @@ import React, { useEffect, useState } from "react";
 
 const GyroscopeDataViewer = () => {
   const [gyroscopeData, setGyroscopeData] = useState({ alpha: 0, beta: 0, gamma: 0 });
-  // const [allowGyro, setAllowGyro] = useState(false);
+  const [allowGyro, setAllowGyro] = useState(false);
   const [message, setMessage] = useState("Waiting for messages...");
 
   // health check message only 
@@ -104,53 +104,62 @@ const GyroscopeDataViewer = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const handleGyroData = (event) => {
-  //     setGyroscopeData(event.detail);
-  //   };
+  useEffect(() => {
+    if (window.self === window.top) {
+      console.warn('not in an iframe to start the listener.')
+      return
+    }
 
-  //   // Listen for the custom event
-  //   window.addEventListener("gyroscopeData", handleGyroData);
+    const handleGyroData = (event) => {
+      setGyroscopeData(event.detail);
+    };
 
-  //   return () => {
-  //     // Cleanup the listener
-  //     window.removeEventListener("gyroscopeData", handleGyroData);
-  //   };
-  // }, []);
+    // Listen for the custom event
+    window.addEventListener("gyroscopeData", handleGyroData);
 
-  // useEffect(() => {
-  //   const handleOrientation = (event) => {
-  //     setGyroscopeData({
-  //       alpha: event.alpha || 0, // Rotation around z-axis
-  //       beta: event.beta || 0,   // Rotation around x-axis
-  //       gamma: event.gamma || 0, // Rotation around y-axis
-  //     });
-  //   };
+    return () => {
+      // Cleanup the listener
+      window.removeEventListener("gyroscopeData", handleGyroData);
+    };
+  }, []);
 
-  //   if (allowGyro) {
-  //     // Request permission on iOS
-  //     if (typeof DeviceOrientationEvent.requestPermission === "function") {
-  //       DeviceOrientationEvent.requestPermission()
-  //         .then((permissionState) => {
-  //           if (permissionState === "granted") {
-  //             window.addEventListener("deviceorientation", handleOrientation, true);
-  //           }
-  //         })
-  //         .catch(console.error);
-  //     } else {
-  //       // Add listener for other browsers
-  //       window.addEventListener("deviceorientation", handleOrientation, true);
-  //     }
-  //   } else {
-  //     window.removeEventListener("deviceorientation", handleOrientation, true);
-  //   }
+  useEffect(() => {
+    if (window.self !== window.top) {
+      console.warn('it\'s in an iframe.')
+      return
+    }
+    const handleOrientation = (event) => {
+      setGyroscopeData({
+        alpha: event.alpha || 0, // Rotation around z-axis
+        beta: event.beta || 0,   // Rotation around x-axis
+        gamma: event.gamma || 0, // Rotation around y-axis
+      });
+    };
 
-  //   return () => {
-  //     window.removeEventListener("deviceorientation", handleOrientation, true);
-  //   };
-  // }, [allowGyro]);
+    if (allowGyro) {
+      // Request permission on iOS
+      if (typeof DeviceOrientationEvent.requestPermission === "function") {
+        DeviceOrientationEvent.requestPermission()
+          .then((permissionState) => {
+            if (permissionState === "granted") {
+              window.addEventListener("deviceorientation", handleOrientation, true);
+            }
+          })
+          .catch(console.error);
+      } else {
+        // Add listener for other browsers
+        window.addEventListener("deviceorientation", handleOrientation, true);
+      }
+    } else {
+      window.removeEventListener("deviceorientation", handleOrientation, true);
+    }
 
-  // const toggleGyro = () => setAllowGyro((prev) => !prev);
+    return () => {
+      window.removeEventListener("deviceorientation", handleOrientation, true);
+    };
+  }, [allowGyro]);
+
+  const toggleGyro = () => setAllowGyro((prev) => !prev);
 
   return (
     <>
@@ -158,35 +167,37 @@ const GyroscopeDataViewer = () => {
         <h1>Iframe Page</h1>
         <p>{message}</p>
       </div>
-      {/* // <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
-    //   <h1>Gyroscope Data Viewer</h1>
-    //   <button 
-    //     style={{
-    //       padding: "10px 20px",
-    //       backgroundColor: allowGyro ? "red" : "green",
-    //       color: "white",
-    //       border: "none",
-    //       borderRadius: "5px",
-    //       cursor: "pointer",
-    //     }}
-    //     onClick={toggleGyro}
-    //   >
-    //     {allowGyro ? "Disable Gyro" : "Enable Gyro"}
-    //   </button>
-    //   <div style={{ marginTop: "20px", fontSize: "18px" }}>
-    //     <p>Alpha (Z-axis): {gyroscopeData.alpha.toFixed(2)}</p>
-    //     <p>Beta (X-axis): {gyroscopeData.beta.toFixed(2)}</p>
-    //     <p>Gamma (Y-axis): {gyroscopeData.gamma.toFixed(2)}</p>
-    //   </div>
-    // </div>*/}
-      < div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
+      {/* parent  */}
+      {window.self !== window.top && <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
+        <h1>Gyroscope Data Viewer</h1>
+        <button
+          style={{
+            padding: "10px 20px",
+            backgroundColor: allowGyro ? "red" : "green",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+          onClick={toggleGyro}
+        >
+          {allowGyro ? "Disable Gyro" : "Enable Gyro"}
+        </button>
+        <div style={{ marginTop: "20px", fontSize: "18px" }}>
+          <p>Alpha (Z-axis): {gyroscopeData.alpha.toFixed(2)}</p>
+          <p>Beta (X-axis): {gyroscopeData.beta.toFixed(2)}</p>
+          <p>Gamma (Y-axis): {gyroscopeData.gamma.toFixed(2)}</p>
+        </div>
+      </div>}
+      {/* child in iframe  */}
+      {window.self === window.top && < div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
         <h1>Gyroscope Data Viewer</h1>
         <div style={{ marginTop: "20px", fontSize: "18px" }}>
           <p>Alpha (Z-axis): {gyroscopeData?.alpha?.toFixed(2)}</p>
           <p>Beta (X-axis): {gyroscopeData?.beta?.toFixed(2)}</p>
           <p>Gamma (Y-axis): {gyroscopeData?.gamma?.toFixed(2)}</p>
         </div>
-      </div>
+      </div>}
     </>
   );
 };

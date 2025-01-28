@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const GyroscopeDataReceiver = () => {
   const [gyroData, setGyroData] = useState({
@@ -45,20 +46,25 @@ const GyroscopeDataReceiver = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Gyroscope Data</h2>
-      <p>
-        <strong>Connection Status:</strong> {connectionStatus}
-      </p>
-      <p>
-        <strong>Alpha (Z-axis):</strong> {gyroData.alpha || 'N/A'}°
-      </p>
-      <p>
-        <strong>Beta (X-axis):</strong> {gyroData.beta || 'N/A'}°
-      </p>
-      <p>
-        <strong>Gamma (Y-axis):</strong> {gyroData.gamma || 'N/A'}°
-      </p>
+    <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
+      <div >
+        <Link to="/viewer">Go to Gyroscope Data Viewer</Link>
+      </div>
+      <div>
+        <h2>Gyroscope Data</h2>
+        <p>
+          <strong>Connection Status:</strong> {connectionStatus}
+        </p>
+        <p>
+          <strong>Alpha (Z-axis):</strong> {gyroData.alpha || 'N/A'}°
+        </p>
+        <p>
+          <strong>Beta (X-axis):</strong> {gyroData.beta || 'N/A'}°
+        </p>
+        <p>
+          <strong>Gamma (Y-axis):</strong> {gyroData.gamma || 'N/A'}°
+        </p>
+      </div>
     </div>
   );
 };

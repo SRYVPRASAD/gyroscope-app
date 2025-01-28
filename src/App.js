@@ -1,23 +1,21 @@
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
+import CameraDataViewer from './components/CameraDataViewer';
 import GyroscopeDataReceiver from './components/GyroDataRecevier';
-// import GyroscopeDataViewer from './components/Gyroscope';
+import GyroscopeDataViewer from './components/Gyroscope';
+
 
 function App() {
   return (
-    <>
-      <GyroscopeDataReceiver />
-      {/* <GyroscopeDataViewer /> */}
-      {/* <div className="App">
-        <GyroscopeDataViewer />
-      </div>
-      <div className="App1">
-        <header className="-header">
-          // {/* <img src={logo} className="App-logo" alt="logo" />
-      <p> Open this website on your mobile device and give access and shake it to view the data.</p>
-    </header >
-      </div > */
-      }
-    </>
+
+    <Router>
+      <Routes>
+        <Route path="/" element={<GyroscopeDataReceiver />} />
+        <Route path="/viewer" element={<GyroscopeDataViewer />} />
+        <Route path="/cameradata" element={<CameraDataViewer />} />
+      </Routes>
+    </Router>
+
   );
 }
 

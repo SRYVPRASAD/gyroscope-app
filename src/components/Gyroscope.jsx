@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 // Plain JavaScript to capture gyroscope data and send it to React
 // (function () {
@@ -162,7 +163,7 @@ const GyroscopeDataViewer = () => {
   const toggleGyro = () => setAllowGyro((prev) => !prev);
 
   return (
-    <>
+    <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
       <div style={{ textAlign: "center", padding: "20px" }}>
         <h1>Iframe Page</h1>
         <p>{message}</p>
@@ -198,7 +199,10 @@ const GyroscopeDataViewer = () => {
           <p>Gamma (Y-axis): {gyroscopeData?.gamma?.toFixed(2)}</p>
         </div>
       </div>}
-    </>
+      <Link to="/"> Gyroscope Data Reciver</Link>
+    </div>
+
+
   );
 };
 

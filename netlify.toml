@@ -1,8 +1,10 @@
 [build]
   command = "npm run build"
-  node_version = "20"
   publish = "build"
 
+[build.environment]
+  NODE_VERSION = "20.0.0"
+  
 [[redirects]]
   from = "/*"
   to = "/index.html"

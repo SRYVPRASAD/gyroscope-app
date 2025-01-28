@@ -184,9 +184,9 @@ const GyroscopeDataViewer = () => {
           {allowGyro ? "Disable Gyro" : "Enable Gyro"}
         </button>
         <div style={{ marginTop: "20px", fontSize: "18px" }}>
-          <p>Alpha (Z-axis): {gyroscopeData.alpha.toFixed(2)}</p>
-          <p>Beta (X-axis): {gyroscopeData.beta.toFixed(2)}</p>
-          <p>Gamma (Y-axis): {gyroscopeData.gamma.toFixed(2)}</p>
+          <p>Alpha (Z-axis): {gyroscopeData?.alpha?.toFixed(2)}</p>
+          <p>Beta (X-axis): {gyroscopeData?.beta?.toFixed(2)}</p>
+          <p>Gamma (Y-axis): {gyroscopeData?.gamma?.toFixed(2)}</p>
         </div>
       </div>}
       {/* child in iframe  */}

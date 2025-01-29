@@ -1,44 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
 
 const CameraDataViewer = () => {
-  const [rotation, setRotation] = useState(null);
-  const [position, setPosition] = useState(null);
+  // Define state variables to hold position and rotation data
+  const [position, setPosition] = useState({ x: 0, y: 0, z: 0 });
+  const [rotation, setRotation] = useState({ x: 0, y: 0, z: 0 });
 
+  // Set up message listener when the component mounts
   useEffect(() => {
     const handleMessage = (event) => {
-      // Validate the origin if necessary
-      console.log("Received data:", event.data);
+      if (event.data.type === 'data') {
+        const { position, rotation } = event.data;
 
-      // Update state with received data
-      if (event.data.rotation && event.data.position) {
-        setRotation(event.data.rotation);
-        setPosition(event.data.position);
+        // Update state with received data
+        setPosition(position);
+        setRotation(rotation);
+
+        // Log received data for debugging
+        console.log('Received data from parent:', event.data);
       }
     };
 
-    // Add event listener for messages from parent
-    window.addEventListener("message", handleMessage);
+    // Add event listener for messages from the parent iframe
+    window.addEventListener('message', handleMessage);
 
-    // Cleanup event listener on unmount
+    // Clean up event listener when the component unmounts
     return () => {
-      window.removeEventListener("message", handleMessage);
+      window.removeEventListener('message', handleMessage);
     };
   }, []);
 
   return (
-    <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
-      <h1>Child Iframe</h1>
-      <p>Camera data from the user's mobile device received via the parent IFrame.</p>
-      <div>
-        <strong>Rotation:</strong> {rotation ? JSON.stringify(rotation) : "Waiting for data..."}
-      </div>
-      <div>
-        <strong>Position:</strong> {position ? JSON.stringify(position) : "Waiting for data..."}
-      </div>
-      <Link to="/"> [home] Gyroscope Data Reciver</Link>
-      <Link to="/viewer">Go to Gyroscope Data Viewer</Link>
-    </div >
+    <div id="data-display">
+      <p>Position:</p>
+      <p>
+        X: {position.x.toFixed(2)}, Y: {position.y.toFixed(2)}, Z: {position.z.toFixed(2)}
+      </p>
+      <p>Rotation:</p>
+      <p>
+        X: {rotation.x.toFixed(2)}, Y: {rotation.y.toFixed(2)}, Z: {rotation.z.toFixed(2)}
+      </p>
+    </div>
   );
 };
 

@@ -199,7 +199,8 @@ const GyroscopeDataViewer = () => {
           <p>Gamma (Y-axis): {gyroscopeData?.gamma?.toFixed(2)}</p>
         </div>
       </div>}
-      <Link to="/"> Gyroscope Data Reciver</Link>
+      <Link to="/"> [home] Gyroscope Data Reciver</Link>
+      <Link to="/cameradata">Go to Cemara Data Viewer</Link>
     </div>
 
 

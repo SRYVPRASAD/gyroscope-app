@@ -47,9 +47,6 @@ const GyroscopeDataReceiver = () => {
 
   return (
     <div style={{ padding: "20px", textAlign: "center", fontFamily: "Arial" }}>
-      <div >
-        <Link to="/viewer">Go to Gyroscope Data Viewer</Link>
-      </div>
       <div>
         <h2>Gyroscope Data</h2>
         <p>
@@ -64,6 +61,9 @@ const GyroscopeDataReceiver = () => {
         <p>
           <strong>Gamma (Y-axis):</strong> {gyroData.gamma || 'N/A'}°
         </p>
+      </div>
+      <div >
+        <Link to="/viewer">Go to Gyroscope Data Viewer</Link>
       </div>
     </div>
   );

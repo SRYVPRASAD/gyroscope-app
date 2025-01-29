@@ -35,6 +35,8 @@ const CameraDataViewer = () => {
       <div>
         <strong>Position:</strong> {position ? JSON.stringify(position) : "Waiting for data..."}
       </div>
+      <Link to="/"> [home] Gyroscope Data Reciver</Link>
+      <Link to="/viewer">Go to Gyroscope Data Viewer</Link>
     </div >
   );
 };

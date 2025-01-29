@@ -16,7 +16,7 @@ const CameraDataViewer = () => {
         setRotation(rotation);
 
         // Log received data for debugging
-        console.log('Received data from parent:', event.data);
+
       }
     };
 

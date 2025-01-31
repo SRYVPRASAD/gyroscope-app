@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 import GyroscopeDataReceiver from './components/GyroDataRecevier';
 import GyroscopeDataViewer from './components/Gyroscope';
 import Header from './components/Header';
-import { ObjectViewer } from './components/ObjectViewer';
+import ObjectViewer from './components/ObjectViewer';
 
 
 function App() {

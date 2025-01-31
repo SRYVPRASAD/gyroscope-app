@@ -36,10 +36,11 @@ export const ObjectViewer = () => {
     // Start listening to orientation event
     const startListening = () => {
       const handleOrientation = (event) => {
+        console.log("Orientation data:", event); // Debugging log
         setOrientation({
-          alpha: event.alpha,
-          beta: event.beta,
-          gamma: event.gamma,
+          alpha: event.alpha || 0,
+          beta: event.beta || 0,
+          gamma: event.gamma || 0,
         });
       };
 
@@ -56,10 +57,10 @@ export const ObjectViewer = () => {
 
   }, []);
 
-  // Map orientation values to position of the object
-  const xPos = orientation.beta / 90;  // Use beta for x-axis movement
-  const yPos = orientation.gamma / 90; // Use gamma for y-axis movement
-  const zPos = -orientation.alpha / 90; // Use alpha for z-axis movement
+  // Map orientation values to position of the object with better scaling
+  const xPos = orientation.beta / 90;  // Use beta for x-axis movement, scale it as needed
+  const yPos = orientation.gamma / 90; // Use gamma for y-axis movement, scale it as needed
+  const zPos = -orientation.alpha / 90; // Use alpha for z-axis movement, scale it as needed
 
   return (
     <Canvas>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const GyroscopeDataReceiver = () => {
   const [gyroData, setGyroData] = useState({
@@ -62,9 +61,7 @@ const GyroscopeDataReceiver = () => {
           <strong>Gamma (Y-axis):</strong> {gyroData.gamma || 'N/A'}°
         </p>
       </div>
-      <div >
-        <Link to="/viewer">Go to Gyroscope Data Viewer</Link>
-      </div>
+
     </div>
   );
 };

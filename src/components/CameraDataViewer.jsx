@@ -40,6 +40,7 @@ const CameraDataViewer = () => {
         X: {rotation.x.toFixed(2)}, Y: {rotation.y.toFixed(2)}, Z: {rotation.z.toFixed(2)}
       </p>
     </div>
+
   );
 };
 

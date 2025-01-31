@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 // Plain JavaScript to capture gyroscope data and send it to React
 // (function () {
@@ -199,8 +198,7 @@ const GyroscopeDataViewer = () => {
           <p>Gamma (Y-axis): {gyroscopeData?.gamma?.toFixed(2)}</p>
         </div>
       </div>}
-      <Link to="/"> [home] Gyroscope Data Reciver</Link>
-      <Link to="/cameradata">Go to Cemara Data Viewer</Link>
+
     </div>
 
 

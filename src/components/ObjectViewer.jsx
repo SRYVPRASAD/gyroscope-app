@@ -39,8 +39,16 @@ const ObjectViewer = () => {
   const yPos = orientation.gamma / 90; // Mapping gamma (left/right) to y-axis
   const zPos = -orientation.alpha / 90; // Mapping alpha (compass) to z-axis
 
-  return (
+  return (<>
+    <div >
+      <p>Orientation:</p>
+      <p>
+        X: {orientation?.alpha}, Y: {orientation?.beta}, Z: {orientation?.gamma}
+      </p>
+    </div>
     <Canvas>
+
+
       <ambientLight intensity={0.5} />
       <directionalLight position={[0, 0, 5]} color="red" />
 
@@ -50,6 +58,7 @@ const ObjectViewer = () => {
         <meshPhongMaterial color="skyblue" />
       </mesh>
     </Canvas>
+  </>
   );
 };
 

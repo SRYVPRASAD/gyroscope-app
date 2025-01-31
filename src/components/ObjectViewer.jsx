@@ -11,26 +11,49 @@ export const ObjectViewer = () => {
 
   // Effect to capture device orientation events
   useEffect(() => {
-    const handleOrientation = (event) => {
-      // Update orientation state with the device's rotation values
-      setOrientation({
-        alpha: event.alpha,
-        beta: event.beta,
-        gamma: event.gamma,
-      });
-    };
-
-    // Listen for the device orientation event
-    if (window.DeviceOrientationEvent) {
-      window.addEventListener("deviceorientation", handleOrientation);
-    }
-
-    // Clean up the event listener when the component unmounts
-    return () => {
+    // Request permission for motion sensors on iOS 13+ devices
+    const requestPermission = async () => {
       if (window.DeviceOrientationEvent) {
-        window.removeEventListener("deviceorientation", handleOrientation);
+        // For iOS 13 and above, request permission
+        if (typeof DeviceOrientationEvent.requestPermission === "function") {
+          try {
+            const permission = await DeviceOrientationEvent.requestPermission();
+            if (permission === "granted") {
+              startListening();
+            } else {
+              console.error("Permission not granted for device orientation.");
+            }
+          } catch (error) {
+            console.error("Error requesting permission:", error);
+          }
+        } else {
+          // For non-iOS devices, we can directly listen to the event
+          startListening();
+        }
       }
     };
+
+    // Start listening to orientation event
+    const startListening = () => {
+      const handleOrientation = (event) => {
+        setOrientation({
+          alpha: event.alpha,
+          beta: event.beta,
+          gamma: event.gamma,
+        });
+      };
+
+      window.addEventListener("deviceorientation", handleOrientation);
+
+      // Clean up the event listener when the component unmounts
+      return () => {
+        window.removeEventListener("deviceorientation", handleOrientation);
+      };
+    };
+
+    // Request permission to start listening
+    requestPermission();
+
   }, []);
 
   // Map orientation values to position of the object
